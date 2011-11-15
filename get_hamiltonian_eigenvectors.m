@@ -1,9 +1,11 @@
-% v_func is the potential given as a function of x
-% n is the number of points used for discretising the position.
+% v_vec is the potential given as a vector of n values for each x.
+% where n is the number of points used for discretising the position.
 % factor is h ("h-bar") K / 2m
 % where K is the length of ...
-function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_func, n, factor)
-    assert(mod(n,2) == 0, 'n must be even!');
+function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, factor)
+    n = size(v_vec, 1);
+    assert(size(v_vec,2) == 1, 'v_vec must be a column vector!');
+    assert(mod(n,2) == 0, 'v_vec s size must be even!');
 
     % Build the hamiltonian:
     %  First the kinetic energy:
@@ -21,10 +23,10 @@ function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_func, n, f
     end
 
     % The hamiltonian itself:
-    H = diag(v_func(1:n)) + T;
+    H = diag(v_vec) + T;
 
-    disp('The hamiltonian:');
-    disp(H);
+    %disp('The hamiltonian:');
+    %disp(H);
 
     % Find eigenvalues and eigenvectors:
     [eigenvectors,D] = eig(H);
