@@ -1,5 +1,5 @@
 % v_vec is the potential given as a vector of n values for each x.
-% where n is the number of points used for discretising the position.
+% Where n is the number of points used for discretising the position.
 % factor is h ("h-bar") K / 2m
 % where K is the length of ...
 function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, factor)
@@ -29,10 +29,21 @@ function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, facto
     %disp(H);
 
     % Find eigenvalues and eigenvectors:
-    [eigenvectors,D] = eig(H);
-
+    [V,D] = eig(full(H));
+    
     % The eigenvalues as a vector:
     eigenvalues = diag(D);
     % Vector of the values on the diagonal.
+    
+    % Sort eigenvalues and store order:
+    [eigenvalues,order] = sort(eigenvalues);
+    
+    % Create eigenvector array in advance:
+    eigenvectors = zeros(n);
+    
+    % Also order eigenvectors:
+    for j = 1:n
+        eigenvectors(:,j) = V(:,order(j));
+    end
 end
 
