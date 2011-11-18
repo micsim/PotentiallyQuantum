@@ -10,14 +10,14 @@ function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, facto
     % Build the hamiltonian:
     %  First the kinetic energy:
     %    The diagonal:
-    T = -factor * 1/3 * (1 + 2/(n^2)) * eye(n);
+    T = factor * 1/3 * (1 + 2/(n^2)) * eye(n);
     % An diagonal matrix of all the same values (that value times the identity).
 
     %    The other elements:
     for i = 1:n
         for j = 1:n
             if i ~= j
-                T(i,j) = -factor * 2/(n^2) * (-1)^(j-1) / (sin(pi*(j-i)/n));
+                T(i,j) = factor * 2/(n^2) * (-1)^(j-1) / (sin(pi*(j-i)/n));
             end
         end
     end
