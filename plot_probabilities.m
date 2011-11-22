@@ -1,4 +1,4 @@
-function plot_eigenvectors(eigenvectors, eigenvalues, num)
+function plot_probabilities(eigenvectors, eigenvalues, num)
     if nargin < 2
         num = inf;
     end
