@@ -1,6 +1,6 @@
 % v_vec is the potential given as a vector of n values for each x.
 % Where n is the number of points used for discretising the position.
-% factor is h ("h-bar") K / 2m
+% factor is h^2 ("h-bar") K^2 / 2m
 % where K is the length of ...
 function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, factor)
     n = size(v_vec, 1);
@@ -17,7 +17,7 @@ function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, facto
     for i = 1:n
         for j = 1:n
             if i ~= j
-                T(i,j) = factor * 2/(n^2) * (-1)^(j-1) / (sin(pi*(j-i)/n));
+                T(i,j) = factor * 2/(n^2) * (-1)^(j-i) / (sin(pi*(j-i)/n))^2;
             end
         end
     end
