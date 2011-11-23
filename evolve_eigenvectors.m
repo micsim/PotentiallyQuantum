@@ -5,4 +5,3 @@ function [eigenvectors] = evolve_eigenvectors(eigenvalues, eigenvectors, t)
         eigenvectors(:,j) = exp(factor * eigenvalues(j)) * eigenvectors(:,j);
     end
 end
-
