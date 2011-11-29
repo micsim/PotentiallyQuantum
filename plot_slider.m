@@ -1,8 +1,4 @@
 function plot_slider(e, E, d, v, t_max)
-    if nargin < 5
-        t_max = 2*size(v,1);
-    end
-
     fig = figure();
     slider = uicontrol(fig, 'Style', 'Slider', 'Units', 'normalized',...
         'Position', [0,-0.95,1,1]);

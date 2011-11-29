@@ -1,12 +1,26 @@
-% v_vec is the potential given as a vector of n values for each x.
-% Where n is the number of points used for discretising the position.
-% factor is h^2 ("h-bar")/2m(dx^2)
-% where dx is the step-width of position-space.
+% v_vec is the potential given as a vector of n values for each x in eV.
+% L is the length of the periodic box in position space in meters.
+% mass is the mass of the particle relative to the electron mass.
 % This function uses the difference quotient to calculate solutions
 % of the one-dimensional time-independent Schrödinger equation.
-function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors_dq(v_vec, factor)
+function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors_dq(v_vec, L, mass)
     n = size(v_vec, 1);
+    % n is the number of points used for discretising the position.
+
     assert(size(v_vec,2) == 1, 'v_vec must be a column vector!');
+
+    if nargin < 3
+        mass = 1;
+    end
+
+    h_bar = 1.054571506e-34; % [J*s]
+    joule_to_eV = 6.24150974e18; % [eV/J]
+    electron_mass = 9.1093829140e-31; % [kg]
+
+    % factor is   h^2 ("h-bar")/ 2m(dx^2)
+    %           = h^2 ("h-bar") (n-1)^2 / (2m L^2)
+    % where dx = L/(n-1) is the step-width of position-space.
+    factor = joule_to_eV * h_bar^2 * (n-1)^2 / (2*mass*electron_mass * L^2); % [eV]
 
     % Build the hamiltonian:
     %  First the kinetic energy:
