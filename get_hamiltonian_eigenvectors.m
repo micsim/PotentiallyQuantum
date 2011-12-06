@@ -1,6 +1,10 @@
 % v_vec is the potential given as a vector of n values for each x in eV.
 % L is the length of the periodic box in position space in meters.
 % mass is the mass of the particle relative to the electron mass.
+% 
+% eigenvalues is a sorted vector of the eigenvalues in eV.
+% eigenvectors is a matrix whose columns are the eigenvectors in the same order
+% as the corresponding eigenvalues.
 function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, L, mass)
     n = size(v_vec, 1);
     % n is the number of points used for discretising the position.
