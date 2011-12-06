@@ -48,6 +48,9 @@ function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, L, ma
 
     % Find eigenvalues and eigenvectors:
     [V,D] = eig(full(H));
+
+    % normalize:
+    V = sqrt(n/L)*V;
     
     % The eigenvalues as a vector:
     eigenvalues = diag(D);

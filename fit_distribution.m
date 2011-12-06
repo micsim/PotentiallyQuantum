@@ -1,4 +1,4 @@
-function v = fit_distribution(eigenvectors, distribution)
+function v = fit_distribution(eigenvectors, distribution,L)
     n = size(eigenvectors,2);
     m = size(distribution, 1);
     assert(size(eigenvectors,1) == m,...
@@ -7,6 +7,6 @@ function v = fit_distribution(eigenvectors, distribution)
     v = zeros(n,1);
 
     for i = 1:n
-        v(i) = eigenvectors(:,i)' * distribution;
+        v(i) = eigenvectors(:,i)' * distribution * L/n;
     end
 end
