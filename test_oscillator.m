@@ -12,7 +12,8 @@ v = (((u/n - 0.5).*L).^2).*(0.5*electron_mass*omega^2*joule_to_eV); % potential 
 
 
 
-[e,E] = get_hamiltonian_eigenvectors(v, L);
+[e,E] = get_hamiltonian_eigenvectors(v, L, @(H) eigs(H,100,0));
+% To calculate all eigenvectors delete the last argument.
 
 
 k = 5e6 * pi;

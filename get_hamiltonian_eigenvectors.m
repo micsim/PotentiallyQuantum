@@ -5,15 +5,19 @@
 % eigenvalues is a sorted vector of the eigenvalues in eV.
 % eigenvectors is a matrix whose columns are the eigenvectors in the same order
 % as the corresponding eigenvalues.
-function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, L, mass)
+function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, L, eig_function, mass)
     n = size(v_vec, 1);
     % n is the number of points used for discretising the position.
 
     assert(size(v_vec,2) == 1, 'v_vec must be a column vector!');
     assert(mod(n,2) == 0, 'v_vec s size must be even!');
 
-    if nargin < 3
+    if nargin < 4
         mass = 1;
+
+        if nargin < 3
+            eig_function = @(H) eig(full(H));
+        end
     end
 
     h_bar = 1.054571506e-34; % [J*s]
@@ -47,7 +51,7 @@ function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, L, ma
     %disp(H);
 
     % Find eigenvalues and eigenvectors:
-    [V,D] = eig(full(H));
+    [V,D] = eig_function(H);
 
     % normalize:
     V = sqrt(n/L)*V;
@@ -55,16 +59,8 @@ function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, L, ma
     % The eigenvalues as a vector:
     eigenvalues = diag(D);
     % Vector of the values on the diagonal.
-    
-    % Sort eigenvalues and store order:
-    [eigenvalues,order] = sort(eigenvalues);
-    
-    % Create eigenvector array in advance:
-    eigenvectors = zeros(n);
-    
-    % Also order eigenvectors:
-    for j = 1:n
-        eigenvectors(:,j) = V(:,order(j));
-    end
-end
 
+    % Sort eigenvalues and store order:
+    [eigenvalues, eigenvectors] = sort_eigenvectors(eigenvalues, V);
+    % TODO Optimize: Not needed for using eigs as eig_function!
+end
