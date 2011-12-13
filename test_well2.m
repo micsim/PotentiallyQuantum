@@ -12,14 +12,14 @@ h_bar = 1.054571506e-34; % [J*s]
 joule_to_eV = 6.24150974e18; % [eV/J]
 electron_mass = 9.1093829140e-31; % [kg]
 
-genergy = (1:10)'.^2 * joule_to_eV * h_bar^2 * pi^2 / (2*electron_mass * (L/2)^2);
-both = [genergy, e(1:10)];
+genergy = (1:100)'.^2 * joule_to_eV * h_bar^2 * pi^2 / (2*electron_mass * (L/2)^2);
+both = [genergy, e(1:100)];
 
 fprintf('groundstate energy for an infinite well:\nby formula | the calculated eigenvalue:\n');
 disp(both);
 
 fprintf('relative error:\n');
-disp((genergy(1:10) - e(1:10))./genergy(1:10));
+disp((genergy(1:100) - e(1:100))./genergy(1:100));
 
 plot_amplitudes(E,e,5, v);
 
