@@ -1,12 +1,12 @@
 function v = fit_distribution(eigenvectors, distribution,L)
-    n = size(eigenvectors,2);
-    m = size(distribution, 1);
-    assert(size(eigenvectors,1) == m,...
+    n = size(eigenvectors,1);
+    m = size(eigenvectors,2);
+    assert(size(distribution, 1) == n,...
         'The distribution vector must have the same size as the eigenvectors');
 
-    v = zeros(n,1);
+    v = zeros(m,1);
 
-    for i = 1:n
+    for i = 1:m
         v(i) = eigenvectors(:,i)' * distribution * L/n;
     end
 end
