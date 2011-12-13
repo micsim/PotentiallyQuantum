@@ -12,7 +12,7 @@ v = (((u/n - 0.5).*L).^2).*(0.5*electron_mass*omega^2*joule_to_eV); % potential 
 
 
 
-[e,E] = get_hamiltonian_eigenvectors(v, L, @(H) eigs(H,100,0));
+[e,E,H] = get_hamiltonian_eigenvectors(v, L, @(H) eigs(H,100,0));
 % To calculate all eigenvectors delete the last argument.
 
 
@@ -25,6 +25,10 @@ for j = 1:n
 end
 
 d = fit_distribution(E, d_orig, L);
+
+%calculate energy of particle
+totalenergy = (E*d)'* H * (E*d);
+fprintf('total energy of particle: %d\n',totalenergy);
 
 %disp('This should be 1:');
 %disp(sum(abs(E*d).^2));

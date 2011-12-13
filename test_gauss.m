@@ -22,5 +22,5 @@ d = fit_distribution(E, d_orig, L);
 %disp('This should be 1:');
 %disp(sum(abs(E*d).^2));
 
-plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 1e-9);
+plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 2e-9);
 %plot_probabilities(E,e,1);

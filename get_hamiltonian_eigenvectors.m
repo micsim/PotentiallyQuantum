@@ -5,7 +5,7 @@
 % eigenvalues is a sorted vector of the eigenvalues in eV.
 % eigenvectors is a matrix whose columns are the eigenvectors in the same order
 % as the corresponding eigenvalues.
-function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, L, eig_function, mass)
+function [eigenvalues, eigenvectors,H] = get_hamiltonian_eigenvectors(v_vec, L, eig_function, mass)
     n = size(v_vec, 1);
     % n is the number of points used for discretising the position.
 
@@ -55,7 +55,7 @@ function [eigenvalues, eigenvectors] = get_hamiltonian_eigenvectors(v_vec, L, ei
 
     % normalize:
     V = sqrt(n/L)*V;
-    
+
     % The eigenvalues as a vector:
     eigenvalues = diag(D);
     % Vector of the values on the diagonal.
