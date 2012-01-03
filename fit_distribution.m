@@ -1,4 +1,4 @@
-function v = fit_distribution(eigenvectors, distribution,L)
+function v = fit_distribution(eigenvectors, distribution, L)
     n = size(eigenvectors,1);
     m = size(eigenvectors,2);
     assert(size(distribution, 1) == n,...
