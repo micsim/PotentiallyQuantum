@@ -16,6 +16,10 @@ v = (((u/n - 0.5).*L).^2).*(0.5*electron_mass*omega^2*joule_to_eV); % potential 
 % To calculate all eigenvectors delete the last argument.
 
 
+K = dft_eigenvectors(E);
+% Fourier transform each eigenvector to get the eigenvectors in k space.
+
+
 k = 5e6 * pi;
 
 d_orig = sqrt(normpdf(u, 0.5*n, 0.03*n));
@@ -32,7 +36,7 @@ fprintf('total energy of particle: %d\n',totalenergy);
 
 %disp('This should be 1:');
 %disp(sum(abs(E*d).^2));
-plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 1e-7);
+plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 1e-7, K);
 %plot_probabilities(E,e,1);
 
 %lowest eigenenergies of harmonic oscillator:
