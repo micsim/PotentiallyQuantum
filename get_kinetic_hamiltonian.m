@@ -1,10 +1,6 @@
 function T = get_kinetic_hamiltonian(n, L, mass)
     assert(mod(n,2) == 0, 'n must be even!');
 
-    if nargin < 3
-        mass = 1;
-    end
-
     h_bar = 1.054571506e-34; % [J*s]
     joule_to_eV = 6.24150974e18; % [eV/J]
     electron_mass = 9.1093829140e-31; % [kg]

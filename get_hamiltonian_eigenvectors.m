@@ -5,22 +5,26 @@
 % eigenvalues is a sorted vector of the eigenvalues in eV.
 % eigenvectors is a matrix whose columns are the eigenvectors in the same order
 % as the corresponding eigenvalues.
-function [eigenvalues, eigenvectors,H] = get_hamiltonian_eigenvectors(v_vec, L, eig_function, kin_h_function, varargin)
+function [eigenvalues, eigenvectors,H] = get_hamiltonian_eigenvectors(v_vec, L, eig_function, kin_h_function, mass)
     n = size(v_vec, 1);
     % n is the number of points used for discretising the position.
 
-    if nargin < 4
-        kin_h_function = @get_kinetic_hamiltonian;
+    if nargin < 5
+        mass = 1;
 
-        if nargin < 3
-            eig_function = @(H) eig(full(H));
+        if nargin < 4
+            kin_h_function = @get_kinetic_hamiltonian;
+
+            if nargin < 3
+                eig_function = @(H) eig(full(H));
+            end
         end
     end
 
     assert(size(v_vec,2) == 1, 'v_vec must be a column vector!');
 
     % The hamiltonian itself:
-    H = diag(v_vec) + kin_h_function(n,L,varargin{:});
+    H = diag(v_vec) + kin_h_function(n, L, mass);
 
     %disp('The hamiltonian:');
     %disp(H);
