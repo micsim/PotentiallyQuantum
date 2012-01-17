@@ -21,23 +21,14 @@ K = dft_eigenvectors(E);
 
 
 k = 5e6 * pi;
-
-d_orig = sqrt(normpdf(u, 0.5*n, 0.03*n));
-for j = 1:n
-    pos = j/n * L;
-    d_orig(j) = exp(1i*k*pos) * d_orig(j);
-end
-
+d_orig = create_gauss_distr(n, L, 0.5, 0.03, k);
 d = fit_distribution(E, d_orig, L);
 
 %calculate energy of particle
 totalenergy = (E*d)'* H * (E*d);
 fprintf('total energy of particle: %d\n',totalenergy);
 
-%disp('This should be 1:');
-%disp(sum(abs(E*d).^2));
 plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 1e-7, K);
-%plot_probabilities(E,e,1);
 
 %lowest eigenenergies of harmonic oscillator:
 h_bar = 1.054571506e-34; % [J*s]

@@ -11,17 +11,7 @@ v(floor(n/2)) = n/L;
 
 
 k = 20e6 * pi;
-
-d_orig = sqrt(normpdf(u, 0.1*n, 0.03*n));
-for j = 1:n
-    pos = j/n * L;
-    d_orig(j) = exp(1i*k*pos) * d_orig(j);
-end
-
+d_orig = create_gauss_distr(n, L, 0.1, 0.03, k);
 d = fit_distribution(E, d_orig, L);
 
-%disp('This should be 1:');
-%disp(sum(abs(E*d).^2));
-
 plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 6e-9);
-%plot_probabilities(E,e,1);
