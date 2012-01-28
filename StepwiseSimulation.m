@@ -3,6 +3,8 @@ classdef StepwiseSimulation < Simulation
     %timedependent potential.
     
     properties
+        n_t;
+        dt;
     end
     
     methods
