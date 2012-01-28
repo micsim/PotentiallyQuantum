@@ -1,0 +1,11 @@
+*.mat
+/Icon
+/Icon?
+/.dropbox
+
+# generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out

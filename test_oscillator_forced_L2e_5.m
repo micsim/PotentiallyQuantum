@@ -1,22 +1,17 @@
-n = 600;
+n = 300;
 u = (1:n)';
 L = 2e-5;
-n_t = 40000;
+n_t = 8000;
 
 omega = 1e9; % [rad/s]
-dt = 8*(2*pi/(omega*n_t));%3e-11;
+dt = 16*(2*pi/(omega*n_t));%3e-11;
 
 
 electron_mass = 9.1093829140e-31; % [kg]
 joule_to_eV = 6.24150974e18; % [eV/J]
 
-omega_pot = 0.8*omega;  %angular frequency of the harmonically oscillating potential
+omega_pot = 1*omega;  %angular frequency of the harmonically oscillating potential
 ampl_pot = 0.03;        %amplitude of the potential oscillation, relative to L
-
-v_mat = zeros(n, n_t);
-for i = 1:n_t
-    v_mat(:,i) = (((u/n - 0.5+ampl_pot*sin(omega_pot*i*dt)).*L).^2).*(0.5*electron_mass*omega^2*joule_to_eV); % potential of harmonic oscillator;
-end
 
 %[e,E,H] = get_hamiltonian_eigenvectors(v, L, @(H) eigs(H,100,0));
 % To calculate all eigenvectors delete the last argument.
@@ -34,7 +29,9 @@ for j = 1:n
     d_orig(j) = exp(1i*k*pos) * d_orig(j);
 end
 
-psi = cn_evolution(v_mat, d_orig, L, dt);
+%psi = cn_evolution(v_mat, d_orig, L, dt);
+load('pot_1-0_res_L2e_5.mat');
+load('psi_1-0_res_L2e_5.mat');
 
 plot_timedep_slider(psi, n_t, dt, 4e0*0.001*v_mat/(norm(v_mat(:,1),inf) * norm(d_orig,inf)^2));
 

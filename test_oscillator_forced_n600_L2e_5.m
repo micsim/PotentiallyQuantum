@@ -1,7 +1,7 @@
 n = 600;
 u = (1:n)';
 L = 2e-5;
-n_t = 40000;
+n_t = 30000;
 
 omega = 1e9; % [rad/s]
 dt = 8*(2*pi/(omega*n_t));%3e-11;
@@ -10,7 +10,7 @@ dt = 8*(2*pi/(omega*n_t));%3e-11;
 electron_mass = 9.1093829140e-31; % [kg]
 joule_to_eV = 6.24150974e18; % [eV/J]
 
-omega_pot = 0.8*omega;  %angular frequency of the harmonically oscillating potential
+omega_pot = 1.0*omega;  %angular frequency of the harmonically oscillating potential
 ampl_pot = 0.03;        %amplitude of the potential oscillation, relative to L
 
 v_mat = zeros(n, n_t);
