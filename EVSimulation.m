@@ -22,10 +22,11 @@ classdef EVSimulation < Simulation
         
         % Calculate T, H, eigenvalues, eigenvectors:
         function internal_recompute(o)
-            assert(size(o.V,2) == 1, 'Potential V must be a column vector!');
-
+            % The kinetic hamiltonian:
+            o.internal_recompute_kinetic_hamiltonian();
+            
             % The hamiltonian itself:
-            o.H = o.internal_recompute_get_hamiltonian(o.V);
+            o.H = o.get_hamiltonian(o.V(:,1));
 
             % Find eigenvalues and eigenvectors:
             [eve,eva] = o.eig_function(o.H);
@@ -73,6 +74,10 @@ classdef EVSimulation < Simulation
 
             set(0,'CurrentFigure',o.k_plot);
             o.plot_distr(k_new * o.d_fitted);
+        end
+        
+        function t_max_was_reset(o)
+            o.replot();
         end
     end
 end

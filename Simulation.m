@@ -108,7 +108,7 @@ classdef Simulation < handle
         function set.k(o, value)
             o.k = value;
             o.redistribute();
-        end        
+        end
         function set.mass(o, value)
             o.mass = value;
             o.recompute();
@@ -157,7 +157,9 @@ classdef Simulation < handle
         function set.t_max(o, value)
             o.t_max = value;
             
-            o.replot();
+            t_max_was_reset(o);
+            % Since the response is different in both subclasses we have to
+            % define there what to do!
         end
         
         function out = get.n(o)
@@ -173,29 +175,31 @@ classdef Simulation < handle
         function internal_replot(~)
             error('Has to be implemented in a subclass!');
         end
+        function t_max_was_reset(~,~)
+            error('Has to be implemented in a subclass!');
+        end
+                
+        % Create a new EVSimulation from this.
+        function new = new_ev(o)
+            new = EVSimulation(o.V, o.t_max, o.d_mu, o.d_sigma, o.L, o.k,...
+                               o.mass, o.kin_h_function);
+            new.d = o.d;
+        end
+        
+        % Create a new StepwiseSimulation from this.
+        function new = new_stepwise(o)
+            new = StepwiseSimulation(o.V, o.t_max, o.d_mu, o.d_sigma, o.L, o.k,...
+                                     o.mass, o.kin_h_function);
+            new.d = o.d;
+        end
         
         function delete(o)
             delete(o.x_plot);
             delete(o.k_plot);
         end
-
     end
     
     methods (Access = protected)
-        % Redo all computations.
-        function set_property_recompute(o, name, value)
-            o.(name) = value;
-            
-            o.recompute();
-        end
-        
-        % Redo the evolution including changes from the starting k
-        function set_property_reevolve(o, name, value)
-            o.(name) = value;
-            
-            o.reevolve();
-        end
-        
         function recompute(o)
             if o.plot
                 o.internal_recompute();
@@ -216,16 +220,20 @@ classdef Simulation < handle
             end
         end
         
-        function hamiltonian = internal_recompute_get_hamiltonian(o, v_vec)
+        function internal_recompute_kinetic_hamiltonian(o)
             % The kinetic hamiltonian:
             o.T = o.kin_h_function(o.n, o.L, o.mass);
-            
+        end
+        function hamiltonian = get_hamiltonian(o, v_vec)
+            assert(size(v_vec,2) == 1, 'Potential v_vec must be a column vector!');
+
             hamiltonian = diag(v_vec) + o.T;
         end
         function distribution = internal_redistribute_momentum(o)
             if ~isempty(o.d_mu) && ~isempty(o.d_sigma)
                 o.d = sqrt(normpdf((1:o.n)', o.d_mu*o.n, o.d_sigma*o.n));
             end
+            % Make sure d is set.
             
             if o.k ~= 0
                 distribution = exp(1i*o.k*o.L*((1:o.n)'/o.n)) .* o.d(1:o.n);
