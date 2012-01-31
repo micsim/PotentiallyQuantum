@@ -49,15 +49,22 @@ classdef EVSimulation < Simulation
         
         function internal_redistribute(o)
             if isempty(o.eigenvectors) || isempty(o.eigenvalues)...
-                || isemtpy(o.k_eigenvectors)
+                || isempty(o.k_eigenvectors)
                 o.internal_recompute();
             end
             
             if ~isempty(o.d_mu) && ~isempty(o.d_sigma)
-                o.d = create_gauss_distr(o.n, o.L, o.d_mu, o.d_sigma, o.k);
+                o.d = sqrt(normpdf((1:o.n)', o.d_mu*o.n, o.d_sigma*o.n));
             end
-            o.d_fitted = fit_distribution(o.eigenvectors, o.d, o.L);
             
+            if o.k ~= 0
+                distribution = exp(1i*o.k*o.L*((1:o.n)'/o.n)) .* o.d(1:o.n);
+            else
+                distribution = o.d;
+            end
+            
+            o.d_fitted = fit_distribution(o.eigenvectors, distribution/norm(distribution), o.L);
+
             o.V_factor = max(abs(o.d))^2 / max(max(o.V));
         end
                         
