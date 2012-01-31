@@ -3,7 +3,14 @@ function plot_slider(e, E, d, v, t_max, K)
     slider = uicontrol(x_plot, 'Style', 'Slider', 'Units', 'normalized',...
         'Position', [0,-0.95,1,1]);
     warning('off','MATLAB:addlistener:invalidEventName');
-    addlistener(slider,'ActionEvent',@(~,~) slider_moved());
+    
+    if verLessThan('matlab', '7.13.0')
+        event_name = 'ActionEvent';
+    else
+        event_name = 'ContinuousValueChange';
+    end
+    % Different Matlab versions use different event names.
+    addlistener(slider, event_name,@(~,~) slider_moved());
 
     plot_distr(E, d, v);
 
