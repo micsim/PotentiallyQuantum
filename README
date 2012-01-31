@@ -1,0 +1,44 @@
+Simulator for a free particle in one dimension with continuous boundary
+conditions in a timedependent or timeindepend potential by Hanko Ipach and
+Michael Simon.
+
+We developed this program for the Computational Physics project at the
+University of Hamburg which is part of the Bachelor program in Computing in
+Science.
+
+
+== HowTo ==
+
+Use the class EVSimulation for a timeindependent potential. This simulation is
+computed based on the eigenvectors of it's timeindependent hamilton matrix.
+
+Use StepwiseSimulation for a timedependent potential. This simulation is
+computed based on a Crank-Nicolson method with discrete timesteps.
+
+
+1. Instanciate the classes as described below.
+2. Type >sim.plot = true to get the calculation started.
+3. Change any parameter and it get's updated in the simulation.
+   (Set plot to false to make multiple changes without having to wait until the
+    recalculation is done.)
+4. Type >sim.new_ev() and >sim.new_stepwise() to clone the simulation to that
+   class. Note that StepwiseSimulation instances do not simulate more than one
+   step of timedevelopment if the second dimension of V is 1. EVSimulation
+   instances on the other hand ignore everything but the first column.
+
+
+Usage of the classes:
+
+EVSimulation(V, t_max, d_mu, d_sigma, L, k, mass, kin_h_function)
+  V               Potential timeindependent -> n x 1       Matrix
+                            timedependent   -> n x n_t - 1 Matrix
+  t_max           Maximum time to include in the simulation.
+  d_mu, d_sigma   Parameters for a normal distribution of the particle.
+                  (Use d to specify any distribution.)
+  L               Length of simulated space.
+  k               k to start with.
+  mass            The mass of the particle relative to the electron mass.
+  kin_h_function  The function that computes the kinetic hamiltonian.
+
+Everything after t_max can be omitted and is then set to standard values.
+StepwiseSimulation has the same usage.
