@@ -24,10 +24,8 @@ classdef EVSimulation < Simulation
         function internal_recompute(o)
             assert(size(o.V,2) == 1, 'Potential V must be a column vector!');
 
-            % The kinetic hamiltonian:
-            o.T = o.kin_h_function(o.n, o.L, o.mass);
             % The hamiltonian itself:
-            o.H = diag(o.V) + o.T;
+            o.H = o.internal_recompute_get_hamiltonian(o.V);
 
             % Find eigenvalues and eigenvectors:
             [eve,eva] = o.eig_function(o.H);
@@ -52,20 +50,10 @@ classdef EVSimulation < Simulation
                 || isempty(o.k_eigenvectors)
                 o.internal_recompute();
             end
-            
-            if ~isempty(o.d_mu) && ~isempty(o.d_sigma)
-                o.d = sqrt(normpdf((1:o.n)', o.d_mu*o.n, o.d_sigma*o.n));
-            end
-            
-            if o.k ~= 0
-                distribution = exp(1i*o.k*o.L*((1:o.n)'/o.n)) .* o.d(1:o.n);
-            else
-                distribution = o.d;
-            end
+
+            distribution = o.internal_redistribute_momentum();
             
             o.d_fitted = fit_distribution(o.eigenvectors, distribution/norm(distribution), o.L);
-
-            o.V_factor = max(abs(o.d))^2 / max(max(o.V));
         end
                         
         function internal_replot(o)
@@ -79,12 +67,12 @@ classdef EVSimulation < Simulation
                                         value);
 
             set(0,'CurrentFigure',o.x_plot);
-            plot_distr(E_new, o.d_fitted, o.V_factor * o.V);
+            o.plot_distr(E_new * o.d_fitted, o.V_factor * o.V);
 
             k_new = evolve_eigenvectors(o.eigenvalues, o.k_eigenvectors, value);
 
             set(0,'CurrentFigure',o.k_plot);
-            plot_distr(k_new, o.d_fitted, 0*o.V);
+            o.plot_distr(k_new * o.d_fitted);
         end
     end
 end

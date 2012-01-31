@@ -38,11 +38,17 @@ classdef Simulation < handle
     end
     
     properties (Access = protected)
+        % == GUI ==
         V_factor;
+        % Factor for displaying the potential with a reasonable scale in the
+        % y direction.
         
         x_plot;
+        % Window for plotting the particle in position space.
         k_plot;
+        % Window for plotting the particle in k space.
         slider;
+        % Slider in the x_plot window for changing the observed time.
     end
     
     methods
@@ -157,7 +163,7 @@ classdef Simulation < handle
         function out = get.n(o)
             out = size(o.V,1);
         end
-                
+
         function internal_recompute(~)
             error('Has to be implemented in a subclass!');
         end
@@ -208,6 +214,56 @@ classdef Simulation < handle
             if o.plot
                 o.internal_replot();
             end
+        end
+        
+        function hamiltonian = internal_recompute_get_hamiltonian(o, v_vec)
+            % The kinetic hamiltonian:
+            o.T = o.kin_h_function(o.n, o.L, o.mass);
+            
+            hamiltonian = diag(v_vec) + o.T;
+        end
+        function distribution = internal_redistribute_momentum(o)
+            if ~isempty(o.d_mu) && ~isempty(o.d_sigma)
+                o.d = sqrt(normpdf((1:o.n)', o.d_mu*o.n, o.d_sigma*o.n));
+            end
+            
+            if o.k ~= 0
+                distribution = exp(1i*o.k*o.L*((1:o.n)'/o.n)) .* o.d(1:o.n);
+            else
+                distribution = o.d;
+            end
+            
+            o.V_factor = max(abs(o.d))^2 / max(max(o.V));
+        end
+    end
+    
+    methods (Access = protected, Static = true)
+        % Plot column vectors from 0 to 1:
+        function plot_vec(varargin)
+            n   = size(varargin{1},1);
+            % Discretisation in x direction.
+            len = length(varargin);
+            % Length of arguments.
+            
+            x_values = (0:n-1)' / (n-1);
+            % Go from 0 to 1 in n steps.
+
+            plot_args = cell(2*len, 1);
+            % Reserve memory for plot arguments.
+
+            for i = 1:len
+                plot_args{2*i - 1} = x_values;
+                plot_args{2*i}     = varargin{i};
+            end
+            
+            plot(plot_args{:}); %#ok<CPROP,PROP>
+        end
+        
+        function plot_distr(distr, varargin)
+            Simulation.plot_vec(abs(distr).^2, real(distr).^2, imag(distr).^2,...
+                ... % Plot the sqares of the absolute, real and imaginary parts.
+                                varargin{:});
+                % ...And the rest of the arguments. (Like a potential.)
         end
     end
 end
