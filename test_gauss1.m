@@ -21,3 +21,4 @@ t_max = 4e-9;
 
 simulation = EVSimulation(v, t_max, d_mu, d_omega, L, k);
 simulation.plot = true;
+H = simulation.H;

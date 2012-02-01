@@ -7,11 +7,13 @@ v = zeros(n,1);
 L = 1e-5;
 v(floor(n/2)) = n/L;
 
-[e,E] = get_hamiltonian_eigenvectors(v, L);
+%[e,E] = get_hamiltonian_eigenvectors(v, L);
 
 
 k = 20e6 * pi;
-d_orig = create_gauss_distr(n, L, 0.1, 0.03, k);
-d = fit_distribution(E, d_orig, L);
+%d_orig = create_gauss_distr(n, L, 0.1, 0.03, k);
+%d = fit_distribution(E, d_orig, L);
 
-plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 6e-9);
+%plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 6e-9);
+simulation = EVSimulation(v, 6e-9, 0.1, 0.03, L, k);
+simulation.plot = true;
