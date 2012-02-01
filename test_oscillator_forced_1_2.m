@@ -5,8 +5,8 @@
 n = 300;
 u = (1:n)';
 L = 1e-5;
-n_t = 8000;
-dt = 16*(2*pi/(omega*n_t));%3e-11;
+n_t = 4000;
+dt = 4*(2*pi/(omega*n_t));%3e-11;
 
 omega = 1.2e9; % [rad/s]
 

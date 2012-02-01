@@ -26,18 +26,18 @@ d = fit_distribution(E, d_orig, L);
 
 %calculate energy of particle
 totalenergy = (E*d)'* H * (E*d);
-fprintf('total energy of particle: %d\n',totalenergy);
+fprintf('total energy of particle: %d eV\n',totalenergy);
 
 plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 1e-7, K);
 
-%lowest eigenenergies of harmonic oscillator:
+%lowest eigenenergies of harmonic oscillator, calculated analytically:
 h_bar = 1.054571506e-34; % [J*s]
 
-genergy = ((0:99)'+0.5).*(joule_to_eV * h_bar * omega);
-both = [genergy, e(1:100)];
+genergy = ((0:55)'+0.5).*(joule_to_eV * h_bar * omega);
+both = [genergy, e(1:56)];
 
 fprintf('lowest eigenenergies for a harmonic oscillator:\nby formula | the calculated eigenvalue:\n');
 disp(both);
 
 fprintf('relative error:\n');
-disp((genergy(1:100) - e(1:100))./genergy(1:100));
+disp((genergy(1:56) - e(1:56))./genergy(1:56));
