@@ -79,9 +79,11 @@ classdef Simulation < handle
             
             % == GUI ==
             o.x_plot = figure('Visible', 'OFF',...
-                              'CloseRequestFcn', @(~,~) delete(o));
+                              'CloseRequestFcn', @(~,~) delete(o),...
+                              'Position', [100, 200, 560, 420]);
             o.k_plot = figure('Visible', 'OFF',...
-                              'CloseRequestFcn', @(~,~) delete(o));
+                              'CloseRequestFcn', @(~,~) delete(o),...
+                              'Position', [660, 200, 560, 420]);
             o.slider = uicontrol(o.x_plot, 'Style', 'Slider',...
                                            'Units', 'normalized',...
                                            'Position', [0,-0.95,1,1]);
@@ -122,21 +124,21 @@ classdef Simulation < handle
         function set.d(o, value)
             o.d = value;
 
-            if isempty(o.d_mu) && isempty(o.d_sigma)
+            if isempty(o.d_mu) && isempty(o.d_sigma) %#ok<MCSUP>
                 o.redistribute();
             end
         end
         function set.d_mu(o, value)
             o.d_mu = value;
             
-            if ~isempty(o.d_mu) && ~isempty(o.d_sigma)
+            if ~isempty(o.d_mu) && ~isempty(o.d_sigma) %#ok<MCSUP>
                 o.redistribute();
             end
         end
         function set.d_sigma(o, value)
             o.d_sigma = value;
             
-            if ~isempty(o.d_mu) && ~isempty(o.d_sigma)
+            if ~isempty(o.d_mu) && ~isempty(o.d_sigma) %#ok<MCSUP>
                 o.redistribute();
             end
         end
@@ -147,11 +149,11 @@ classdef Simulation < handle
             if value
                 o.internal_replot();
                 
-                set(o.x_plot, 'Visible', 'ON');
-                set(o.k_plot, 'Visible', 'ON');
+                set(o.k_plot, 'Visible', 'ON'); %#ok<MCSUP>
+                set(o.x_plot, 'Visible', 'ON'); %#ok<MCSUP>
             else
-                set(o.x_plot, 'Visible', 'OFF');
-                set(o.k_plot, 'Visible', 'OFF');
+                set(o.k_plot, 'Visible', 'OFF'); %#ok<MCSUP>
+                set(o.x_plot, 'Visible', 'OFF'); %#ok<MCSUP>
             end
         end
         function set.t_max(o, value)
