@@ -22,7 +22,7 @@ classdef StepwiseSimulation < Simulation
         end
 
         function set.dt(o, value)
-            o.t_max = value*n_t;
+            o.t_max = value*o.n_t;
             o.redistribute();
             % TODO can that be deleted?
         end
