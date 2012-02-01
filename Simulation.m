@@ -38,6 +38,9 @@ classdef Simulation < handle
     end
     
     properties (Access = protected)
+        recompute_pending    = false;
+        redistribute_pending = false;
+                
         % == GUI ==
         V_factor;
         % Factor for displaying the potential with a reasonable scale in the
@@ -147,6 +150,16 @@ classdef Simulation < handle
             o.plot = value;
             
             if value
+                if(o.recompute_pending) %#ok<MCSUP>
+                    o.internal_recompute();
+                    o.internal_redistribute();
+                elseif(o.redistribute_pending) %#ok<MCSUP>
+                    o.internal_redistribute();
+                end
+                
+                o.recompute_pending    = false; %#ok<MCSUP>
+                o.redistribute_pending = false; %#ok<MCSUP>
+                
                 o.internal_replot();
                 
                 set(o.k_plot, 'Visible', 'ON'); %#ok<MCSUP>
@@ -207,12 +220,16 @@ classdef Simulation < handle
                 o.internal_recompute();
                 o.internal_redistribute();
                 o.internal_replot();
+            else
+                o.recompute_pending = true;
             end
         end
         function redistribute(o)
             if o.plot
                 o.internal_redistribute();
                 o.internal_replot();
+            else
+                o.redistribute_pending = true;
             end
         end
         
