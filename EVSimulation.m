@@ -20,6 +20,11 @@ classdef EVSimulation < Simulation
             o = o@Simulation(varargin{:});
         end
         
+        function set.eig_function(o, value)
+            o.eig_function = value;
+            o.recompute();
+        end
+        
         % Calculate T, H, eigenvalues, eigenvectors:
         function internal_recompute(o)
             % The kinetic hamiltonian:

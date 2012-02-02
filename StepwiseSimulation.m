@@ -64,9 +64,6 @@ classdef StepwiseSimulation < Simulation
                 H2 = 1i/h_bar * H * dt_local / 2;
 
                 o.psi(:, i+1) = ((eye(o.n) + H2)\(eye(n_local) - H2)) * o.psi(:,i);
-                % DOES NOT WORK: TODO why?
-                %tmp = (eye(n_local) + 2*H2) * o.psi(:,i);
-                %o.psi(:, i+1) = tmp/norm(tmp);
             end
         end
         

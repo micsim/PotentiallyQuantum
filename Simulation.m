@@ -38,8 +38,8 @@ classdef Simulation < handle
     end
     
     properties (Access = protected)
-        recompute_pending    = false;
-        redistribute_pending = false;
+        recompute_pending    = true;
+        redistribute_pending = true;
                 
         % == GUI ==
         V_factor;
@@ -181,6 +181,23 @@ classdef Simulation < handle
             out = size(o.V,1);
         end
 
+        function compute(o)
+            o.internal_recompute();
+            if(o.recompute_pending)
+                o.recompute_pending = false;
+                o.redistribute_pending = true;
+            end
+        end
+        function distribute(o)
+            if(o.recompute_pending)
+                o.internal_recompute();
+            end
+            
+            o.internal_redistribute();
+            
+            o.recompute_pending = false;
+            o.redistribute_pending = false;
+        end
         function internal_recompute(~)
             error('Has to be implemented in a subclass!');
         end
@@ -255,7 +272,7 @@ classdef Simulation < handle
             % Make sure d is set.
             
             if o.k ~= 0
-                distribution = exp(1i*o.k*o.L*((1:o.n)'/o.n)) .* o.d(1:o.n);
+                distribution = exp(1i*o.k*o.L*((0:o.n-1)'/(o.n-1))) .* o.d(1:o.n);
             else
                 distribution = o.d;
             end
