@@ -1,10 +1,8 @@
-Simulator for a free particle in one dimension with continuous boundary
-conditions in a timedependent or timeindepend potential by Hanko Ipach and
-Michael Simon.
+Simulator for a particle in one dimension with periodic boundary conditions
+in a timedependent or timeindepend potential by Hanko Ipach and Michael Simon.
 
-We developed this program for the Computational Physics project at the
-University of Hamburg which is part of the Bachelor program in Computing in
-Science.
+We developed this program for the Computational Physics project which is part
+of the Bachelor program in Computing in Science at the University of Hamburg.
 
 
 == HowTo ==
