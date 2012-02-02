@@ -25,12 +25,17 @@ classdef EVSimulation < Simulation
             o.recompute();
         end
         
-        function use_lowest(o, n)
-            if n == 0
+        function use_lowest(o, num)
+            if num == 0
                 o.eig_funcion = @(H) eig(full(H));
             else
-                o.eig_function = @(H) eigs(H,n,0);
+                o.eig_function = @(H) eigs(H,num,0);
             end
+        end
+        
+        function plot_amplitudes(o, num)
+            figure('Name', 'Eigenvectors');
+            plot_amplitudes(o.eigenvectors, o.eigenvalues, num, o.V);
         end
         
         % Calculate T, H, eigenvalues, eigenvectors:
