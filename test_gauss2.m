@@ -14,6 +14,6 @@ k = 5e6 * pi;
 
 %plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 5e-9);
 
-simulation = EVSimulation(v, 5e-9, 0.1, 0.03, L, k);
-simulation.plot = true;
-H = simulation.H;
+sim = EVSimulation(v, 5e-9, 0.1, 0.03, L, k);
+sim.plot = true;
+H = sim.H;

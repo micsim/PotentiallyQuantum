@@ -22,5 +22,5 @@ end
 %d = fit_distribution(E, d_orig, L);
 %plot_slider(e, E, d, 4e0*0.001*v/(norm(v,inf) * norm(d_orig,inf)^2), n_t*dt);
 
-simulation = StepwiseSimulation(v_mat, n_t*dt, 0.1, 0.03, L, 1e7 * pi);
-simulation.plot = true;
+sim = StepwiseSimulation(v_mat, n_t*dt, 0.1, 0.03, L, 1e7 * pi);
+sim.plot = true;

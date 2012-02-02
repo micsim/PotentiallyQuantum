@@ -24,6 +24,6 @@ end
 %plot_timedep_slider(psi, n_t, dt, 1e-4*0.001*v_mat/(v_max^2 * norm(d_orig,inf)^2));
 
 
-simulation = StepwiseSimulation(v_mat, 1, 0.1, 0.03, L, 0, 0.1);
-simulation.dt = dt;
-simulation.plot = true;
+sim = StepwiseSimulation(v_mat, 1, 0.1, 0.03, L, 0, 0.1);
+sim.dt = dt;
+sim.plot = true;

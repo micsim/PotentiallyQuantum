@@ -15,5 +15,5 @@ k = 20e6 * pi;
 %d = fit_distribution(E, d_orig, L);
 
 %plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), 6e-9);
-simulation = EVSimulation(v, 6e-9, 0.1, 0.03, L, k);
-simulation.plot = true;
+sim = EVSimulation(v, 6e-9, 0.1, 0.03, L, k);
+sim.plot = true;

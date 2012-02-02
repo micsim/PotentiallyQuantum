@@ -19,6 +19,6 @@ t_max = 4e-9;
 
 %plot_slider(e, E, d, 1e-8*0.001*v/(norm(v,inf) * norm(d,inf)^2), t_max);
 
-simulation = EVSimulation(v, t_max, d_mu, d_omega, L, k);
-simulation.plot = true;
-H = simulation.H;
+sim = EVSimulation(v, t_max, d_mu, d_omega, L, k);
+sim.plot = true;
+H = sim.H;

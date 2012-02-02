@@ -5,7 +5,12 @@ v = 1e12*ones(n,1);
 v(1/4 * n:3/4 * n) = 0;
 
 L = 1e-9; % [m]
-[e,E] = get_hamiltonian_eigenvectors(v, L);
+%[e,E] = get_hamiltonian_eigenvectors(v, L);
+
+sim = EVSimulation(v, 1e-5, 0.5, 0.1, L);
+sim.compute();
+E = sim.eigenvectors;
+e = sim.eigenvalues;
 
 %groundstate energy for an infinite well:
 h_bar = 1.054571506e-34; % [J*s]
