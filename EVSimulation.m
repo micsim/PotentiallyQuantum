@@ -25,6 +25,14 @@ classdef EVSimulation < Simulation
             o.recompute();
         end
         
+        function use_lowest(o, n)
+            if n == 0
+                o.eig_funcion = @(H) eig(full(H));
+            else
+                o.eig_function = @(H) eigs(H,n,0);
+            end
+        end
+        
         % Calculate T, H, eigenvalues, eigenvectors:
         function internal_recompute(o)
             % The kinetic hamiltonian:
