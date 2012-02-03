@@ -34,7 +34,6 @@ classdef EVSimulation < Simulation
         end
         
         function plot_amplitudes(o, num)
-            figure('Name', 'Eigenvectors');
             plot_amplitudes(o.eigenvectors, o.eigenvalues, num, o.V);
         end
         
