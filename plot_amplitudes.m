@@ -14,6 +14,8 @@ function plot_amplitudes(eigenvectors, eigenvalues, num, v_vec)
     probabilities = arrayfun(@(ele) abs(ele)^2, eigenvectors);
 
     x_values = (1:size(eigenvectors,1))';
+    
+    figure('Name', 'Eigenvectors');
 
     plot_arg = cell(num,1);
     for i = 1:num
